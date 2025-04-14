@@ -3,10 +3,8 @@ name: Fetch and Update CSV Content
 on:
   schedule:
     # 定时任务：每天7:05、12:05、14:05、19:05、22:05执行
-    - cron: '5 7 * * *'
     - cron: '5 12 * * *'
     - cron: '5 14 * * *'
-    - cron: '5 19 * * *'
     - cron: '5 22 * * *'
 
   # 手动触发（可选）
