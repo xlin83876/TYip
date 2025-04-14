@@ -1,0 +1,43 @@
+name: Fetch and Update CSV Content
+
+on:
+  schedule:
+    # 定时任务：每天7:05、12:05、14:05、19:05、22:05执行
+    - cron: '5 7 * * *'
+    - cron: '5 12 * * *'
+    - cron: '5 14 * * *'
+    - cron: '5 19 * * *'
+    - cron: '5 22 * * *'
+
+  # 手动触发（可选）
+  workflow_dispatch:
+
+jobs:
+  update-file:
+    runs-on: ubuntu-latest  # 使用 Ubuntu 环境
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v2  # 检出代码
+
+    - name: Set up Python
+      uses: actions/setup-python@v2  # 设置 Python 环境
+      with:
+        python-version: '3.x'
+
+    - name: Install dependencies
+      run: |
+        pip install requests
+        pip install PyGithub  # 安装所需的 Python 包
+
+    - name: Run script
+      env:
+          MY_GITHUB_TOKEN: ${{ secrets.MY_GITHUB_TOKEN }}
+          REPO_NAME: ${{ secrets.REPO_NAME }}
+          FILE_PATH: ${{ secrets.FILE_PATH }}
+          WEBPAGE_URL: ${{ secrets.WEBPAGE_URL }}
+      run: |
+          echo "DEBUG: REPO_NAME=${REPO_NAME}"
+          echo "DEBUG: FILE_PATH=${FILE_PATH}"
+          echo "DEBUG: WEBPAGE_URL=${WEBPAGE_URL}"
+          python script.py
